@@ -105,12 +105,12 @@
 
   // All options with default values
   looney(document.body, {
-    selector: 'a',   // which elements trigger the transition
-    fill: '#000',    // the transition fill
-    blur: 0,         // how much the circle edges should be blurred
-    playAudio: true, // whether to play music
-    duration: 6900,  // the transition duration (music speed is adjusted accordingly)
-    pause: 0         // how long to pause before redirecting
+    selector: 'a',    // which elements trigger the transition
+    fill: '#000',     // the transition fill
+    blur: 0,          // how much the circle edges should be blurred
+    playAudio: false, // whether to play music
+    duration: 6900,   // the transition duration (music speed is adjusted accordingly)
+    pause: 0          // how long to pause before redirecting
   })
 &lt;/script&gt;</code></pre>
 
@@ -120,7 +120,7 @@
         <pre><code class="js">looney({
   selector: '#example-1',
   blur: 20,
-  pause: 300
+  playAudio: true
 })</code></pre>
         <p><a id="example-1" href="">Click me</a></p>
 
@@ -129,7 +129,6 @@
   selector: '#example-2',
   fill: '#F44336',
   blur: 0,
-  playAudio: false,
   duration: 1000
 })</code></pre>
         <p><a id="example-2" href="">Click me</a></p>
@@ -138,7 +137,6 @@
         <pre><code class="js">looney({
   selector: '#example-3',
   fill: 'url(#example3-image)',
-  playAudio: false,
   duration: 2000,
   pause: 1000
 })
@@ -172,19 +170,17 @@ document.getElementById('example-3').addEventListener('click', function() {
       looney({
         selector: 'header a, #example-1',
         blur: 20,
-        pause: 300
+        playAudio: true
       });
       looney({
         selector: '#example-2',
         fill: '#F44336',
         blur: 0,
-        playAudio: false,
         duration: 1000
       });
       looney({
         selector: '#example-3',
         fill: 'url(#example3-image)',
-        playAudio: false,
         duration: 2000,
         pause: 1000
       });
