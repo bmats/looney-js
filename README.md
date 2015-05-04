@@ -16,12 +16,12 @@ looney.js uses SVG masks to animate a page transition.
 
   // All options with default values
   looney(document.body, {
-    selector: 'a',   // which elements trigger the transition
-    fill: '#000',    // the transition fill
-    blur: 0,         // how much the circle edges should be blurred
-    playAudio: true, // whether to play music
-    duration: 6900,  // the transition duration (music speed is adjusted accordingly)
-    pause: 0         // how long to pause before redirecting
+    selector: 'a',    // which elements trigger the transition
+    fill: '#000',     // the transition fill
+    blur: 0,          // how much the circle edges should be blurred
+    playAudio: false, // whether to play music
+    duration: 6900,   // the transition duration (music speed is adjusted accordingly)
+    pause: 0          // how long to pause before redirecting
   })
 </script>
 ```

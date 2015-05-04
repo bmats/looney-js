@@ -22,9 +22,10 @@
       selector: 'a',
       fill: '#000',
       blur: 0,
-      playAudio: true,
+      playAudio: false,
       duration: 6900, // ms
       pause: 0,
+      audioUrl: 'music.mp3',
       invert: false
     };
 
@@ -42,6 +43,10 @@
       link.addEventListener('click',    playOutro, false);
       link.addEventListener('touchend', playOutro, false);
     }
+
+    // Don't cut off the audio
+    if (options.playAudio)
+      options.pause += 300;
 
     var hasPlayed = false;
 
@@ -143,7 +148,7 @@
       }
 
       if (options.playAudio && window.Audio) {
-        var audio = new Audio('music.mp3');
+        var audio = new Audio(options.audioUrl);
         audio.addEventListener('playing', start); // start after loaded
         audio.playbackRate = defaults.duration / options.duration;
         audio.play();
