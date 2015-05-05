@@ -30,7 +30,7 @@
       }
 
       header {
-        font-family: Courgette, cursive;
+        font-family: Courgette, 'Comic Sans', 'Comic Sans MS', cursive;
         font-weight: 400;
 
         width: 100%;
@@ -117,23 +117,33 @@
         <h2>Examples</h2>
 
         <h3>Classic</h3>
+        <pre><code class="html">&lt;a id="example-1" href="index.html"&gt;Click me&lt;/a&gt;</code></pre>
         <pre><code class="js">looney({
   selector: '#example-1',
   blur: 20,
   playAudio: true
 })</code></pre>
-        <p><a id="example-1" href="">Click me</a></p>
+        <p><a id="example-1" href="index.html">Click me</a></p>
 
         <h3>Flat</h3>
+        <pre><code class="html">&lt;a id="example-2" href="index.html"&gt;Click me&lt;/a&gt;</code></pre>
         <pre><code class="js">looney({
   selector: '#example-2',
   fill: '#F44336',
   blur: 0,
   duration: 1000
 })</code></pre>
-        <p><a id="example-2" href="">Click me</a></p>
+        <p><a id="example-2" href="index.html">Click me</a></p>
 
         <h3>Button with pattern as fill</h3>
+        <pre><code class="html">&lt;button id="example-3"&gt;Press me&lt;/button&gt;
+&lt;svg width="0" height="0"&gt;
+  &lt;defs&gt;
+    &lt;pattern id="example3-image" patternUnits="userSpaceOnUse" width="400" height="400"&gt;
+      &lt;image xlink:href="http://www.prguitarman.com/comics/poptart1red1.gif" x="0" y="0" width="400" height="400" /&gt;
+    &lt;/pattern&gt;
+  &lt;/defs&gt;
+&lt;/svg&gt;</code></pre>
         <pre><code class="js">looney({
   selector: '#example-3',
   fill: 'url(#example3-image)',
@@ -144,13 +154,6 @@
 document.getElementById('example-3').addEventListener('click', function() {
   location.reload();
 })</code></pre>
-        <pre><code class="html">&lt;svg width="0" height="0"&gt;
-&lt;defs&gt;
-  &lt;pattern id="example3-image" patternUnits="userSpaceOnUse" width="400" height="400"&gt;
-    &lt;image xlink:href="http://www.prguitarman.com/comics/poptart1red1.gif" x="0" y="0" width="400" height="400" /&gt;
-  &lt;/pattern&gt;
-&lt;/defs&gt;
-&lt;/svg&gt;</code></pre>
         <p><button id="example-3">Press me</button></p>
         <svg width="0" height="0">
           <defs>
@@ -169,7 +172,7 @@ document.getElementById('example-3').addEventListener('click', function() {
     <script>
       looney({
         selector: 'header a, #example-1',
-        blur: 20,
+        blur: 15,
         playAudio: true
       });
       looney({
