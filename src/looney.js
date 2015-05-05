@@ -61,27 +61,28 @@
 
       var clickLeft = event.clientX,
         clickTop    = event.clientY,
-        clickScrollLeft = document.body.scrollLeft,
-        clickScrollTop  = document.body.scrollTop,
+        clickScrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+        clickScrollTop  = window.pageYOffset || document.documentElement.scrollTop,
         element = this;
 
       // The mask doesn't work when creating the SVG using the DOM API, but unserializing like this works fine
       document.body.insertAdjacentHTML('beforeend',
-        '<svg version="1.1" style="position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 999999999">' +
+        '<svg version="1.1" style="position: fixed; left: 0; top: 0; width: 100%; height: 100vh; z-index: 999999999">' +
           '<mask id="looney-mask">' +
             '<rect x="0" y="0" width="100%" height="100%" fill="#fff" />' +
-            '<circle id="looney-circle" cx="0" cy="0" r="999999" fill="#000"' + (options.blur > 0 ? ' filter="url(#looney-blur)"' : '') + ' />' +
+            '<circle id="looney-circle" cx="0" cy="0" r="10000" fill="#000"' + (options.blur > 0 ? ' filter="url(#looney-blur)"' : '') + ' />' +
           '</mask>' +
           '<defs>' +
             '<filter id="looney-blur">' +
               '<feGaussianBlur in="SourceGraphic" stdDeviation="' + options.blur + '" />' +
             '</filter>' +
           '</defs>' +
-          '<rect x="0" y="0" width="100%" height="100%" fill="' + options.fill + '" mask="url(#looney-mask)" />' +
+          '<rect id="looney-rect" x="0" y="0" width="100%" height="100%" fill="' + options.fill + '" mask="url(#looney-mask)" style="display:none" />' +
         '</svg>');
 
       var maskCircle = document.getElementById('looney-circle'),
-          startTime = new Date();;
+          maskRect   = document.getElementById('looney-rect'),
+          startTime = new Date();
 
       // Get the greatest distance from the click position to the corners for the starting radius
 
@@ -100,9 +101,11 @@
       maxRadius += options.blur * 2;
 
       function start() {
+        var first = true;
+
         _requestAnimationFrame(function setClipPath() {
-          var left = clickLeft - document.body.scrollLeft + clickScrollLeft,
-              top  = clickTop  - document.body.scrollTop  + clickScrollTop;
+          var left = clickLeft - (window.pageXOffset || document.documentElement.scrollLeft) + clickScrollLeft,
+              top  = clickTop  - (window.pageYOffset || document.documentElement.scrollTop)  + clickScrollTop;
 
           var now = new Date(),
             progress = (now - startTime) / options.duration;
@@ -121,16 +124,14 @@
             // Perform the action
             setTimeout(function () {
               var event;
-              if (document.createEvent) {
-                event = document.createEvent('HTMLEvents');
-                event.initEvent('click', true, true);
+              if (window.Event) {
+                event = new MouseEvent('click');
               }
               else {
                 event = document.createEventObject();
                 event.eventType = 'click';
+                event.eventName = 'click';
               }
-
-              event.eventName = 'click';
 
               if (document.createEvent) {
                 element.dispatchEvent(event);
@@ -144,12 +145,19 @@
           maskCircle.setAttribute('cx', left);
           maskCircle.setAttribute('cy', top);
           maskCircle.setAttribute('r', radius);
+
+          // Show the rect
+          if (first) {
+            maskRect.style.display = 'inline';
+            first = false;
+          }
         });
       }
 
       if (options.playAudio && window.Audio) {
         var audio = new Audio(options.audioUrl);
         audio.addEventListener('playing', start); // start after loaded
+        audio.addEventListener('error', start); // play anyway
         audio.playbackRate = defaults.duration / options.duration;
         audio.play();
       }
