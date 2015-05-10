@@ -124,20 +124,19 @@
             // Perform the action
             setTimeout(function () {
               var event;
-              if (window.Event) {
-                event = new MouseEvent('click');
+              if (document.createEvent) {
+                event = document.createEvent('HTMLEvents');
+                event.initEvent('click', true, true);
+                event.eventName = 'click';
+
+                element.dispatchEvent(event);
               }
               else {
                 event = document.createEventObject();
                 event.eventType = 'click';
                 event.eventName = 'click';
-              }
 
-              if (document.createEvent) {
-                element.dispatchEvent(event);
-              }
-              else {
-                element.fireEvent('on' + event.eventType, event);
+                element.fireEvent('onclick', event);
               }
             }, options.pause);
           }
